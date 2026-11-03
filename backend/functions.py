@@ -76,10 +76,6 @@ def get_machine_state(machine: Machines, last_run:Runs):
     return "Out of Order"
 
 
-
-
-
-
 def run_to_dict(run : Runs):
     return {
         "id":run.id,
@@ -90,8 +86,6 @@ def run_to_dict(run : Runs):
         "collected_at":run.collected_at,
         "status":run.status
     }
-
-
 
 def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last 5 runs
     session = Session(engine)
@@ -112,6 +106,13 @@ def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last
     session.close()
     return {"machine": response, "code": 200}
 
-def start_machine(roll_no):
+def start_machine(roll_no,id):
     session = Session(engine)
     machine = session.get(Machines,id)
+    last_run =  session.query(Runs).filter(Runs.machine_id == id).order_by(Runs.id.desc()).first()
+    if not machine or get_machine_state(machine,last_run):
+        session.close()
+        return {"code": 404, "msg": "Machine doesn't exist"}
+    run = Runs(name=name, type=type,location=location,water_every_days=water_every_days,adopted_by= None)
+
+
