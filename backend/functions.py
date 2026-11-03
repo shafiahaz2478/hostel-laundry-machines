@@ -39,7 +39,8 @@ def get_all_machines(block=None, kind=None):
 
     session = Session(engine)
 
-    machines = session.query(Machines).all()
+    machines = session.query(Machines)
+    
    
     response = []
     for machine in machines:
@@ -61,14 +62,20 @@ def get_all_machines(block=None, kind=None):
                         "block": machine.block,
                         "kind": machine.kind,
                         "state": state
+    
         })
+ 
+    if block :
+            machine = machines.filter(Machines.block == block)
+            
+            
+    if kind :
+            machine = machines.filter(Machines.kind == kind)
+           
+    
     session.close()
     return response  
-# work on this it is incoplete
-
-
-
-# Machines = Session.query(Machines)
+ 
 
 
 
