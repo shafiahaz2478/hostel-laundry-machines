@@ -47,3 +47,4 @@ def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last
     }
     session.close()
     return {"machine": response, "code": 200}
+
