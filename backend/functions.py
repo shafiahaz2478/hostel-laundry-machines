@@ -7,8 +7,10 @@ DB_PATH = "./laundry.db"
 engine = create_engine(f"sqlite:///{DB_PATH}")
 Base = declarative_base()
 
+
 class Machines(Base):
     __tablename__ = "machines"
+
     id = Column(Integer, primary_key=True)
     name = Column(String)
     kind = Column(String)
@@ -19,14 +21,17 @@ class Machines(Base):
 
 class Runs(Base):
     __tablename__ = "runs"
+
     id = Column(Integer, primary_key=True)
     machine_id = Column(Integer, ForeignKey("machines.id"))
     roll_no = Column(String)
-    started_at = Column(DateTime , default=datetime.now())
+    started_at = Column(DateTime, default=datetime.now)
     ends_at = Column(DateTime)
     collected_at = Column(DateTime, nullable=True)
     status = Column(String)
 
+
+Base.metadata.create_all(engine)
 
 
 #e1 
@@ -43,7 +48,7 @@ def get_all_machines(block=None, kind=None):
             last_run = session.qury(Runs).filter(Runs.machine_id == machine.id ).order_by(Runs.id.desc()).first()
 
             if last_run.status == "running":
-                if last_run.end_at > datetime.now():
+                if last_run.end_set > datetime.now():
                         state = "running"
                 else :
                     state = "waiting for pickup"
@@ -60,5 +65,18 @@ def get_all_machines(block=None, kind=None):
     session.close()
     return response  
 
+# Machines = Session.query(Machines)
+
+# part e3
+
+def add_machine(id,name, block, kind, cycle_minutes):
+
+    session = Session(engine)
+
+    machine = Machines(
+        id = id,
+        name=name,
+        block=block,
+        kind=kind,
 
 
