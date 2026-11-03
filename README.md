@@ -22,4 +22,10 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 
 ## 3. Problems and Bugs Encountered
 
+Sarang - E2
+
+1. Fixing the linking between tables for quering the last 5 runs
+2. 
+
+
 
