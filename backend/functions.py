@@ -27,3 +27,38 @@ class Runs(Base):
     collected_at = Column(DateTime, nullable=True)
     status = Column(String)
 
+
+
+#e1 
+def get_all_machines(block=None, kind=None):
+
+    session = Session(engine)
+
+    machines = session.query(Machines).all()
+   
+    response = []
+    for machine in machines:
+        state = "out of order"
+        if machine.in_service == 1:
+            last_run = session.qury(Runs).filter(Runs.machine_id == machine.id ).order_by(Runs.id.desc()).first()
+
+            if last_run.status == "running":
+                if last_run.end_at > datetime.now():
+                        state = "running"
+                else :
+                    state = "waiting for pickup"
+            else :
+                state = "free"
+                
+        response.append({
+                        "id": machine.id,
+                        "name": machine.name,
+                        "block": machine.block,
+                        "kind": machine.kind,
+                        "state": state
+        })
+    session.close()
+    return response  
+
+
+
