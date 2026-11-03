@@ -3,13 +3,13 @@ Build an app that shows which hostel washing machines and dryers are free, and l
 
 ## 2. Endpoint tracker
 
-Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 🟡 in progress · ⬜ not started
+Fill in the method and path from your PRD's endpoint table. Status: ✅ done · c in progress · ⬜ not started
 
 | # | Method + path            | Built   | Rules checked in /docs | Connected to React | Who |
 |---|--------------------------|---------|------------------------|---|---|
 | E1 |     get /machine          |    ✅  | ✅                     | ⬜  | Yashwanth |
 | E2 |  GET +  |    ✅  | ⬜                    | ⬜  | Sarang |
-| E3 |   post/machines          |  ✅  |🟡                     | ⬜  | Yashwanth  |
+| E3 |   post/machines          |  🟡  |🟡                     | ⬜  | Yashwanth  |
 | E4 |  | ⬜      | ⬜                     | ⬜  | Yashwanth |
 | E5 |  | ⬜      | ⬜                     | ⬜  | Sarang  |
 | E6 |            | ⬜      | ⬜                       | ⬜  | Shafi  |
