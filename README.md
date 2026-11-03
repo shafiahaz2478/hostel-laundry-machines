@@ -8,15 +8,15 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 | # | Method + path            | Built   | Rules checked in /docs | Connected to React | Who |
 |---|--------------------------|---------|------------------------|---|---|
 | E1 |               |    ⬜  |⬜                     | ⬜  | Yashwanth |
-| E2 |  GET +  |    ✅  | ⬜                    | ⬜  | Sarang |
+| E2 |  GET/machines/{machine_id}  |    ✅  | ⬜                    | ⬜  | Sarang |
 | E3 |             |    ⬜  |⬜                     | ⬜  | Yashwanth  |
 | E4 |  | ⬜      | ⬜                     | ⬜  | Yashwanth |
-| E5 |  |  ✅      | ⬜                     | ⬜  | Sarang  |
+| E5 | POST/runs/{machine_id} |  ✅      | ⬜                     | ⬜  | Sarang  |
 | E6 | PATCH /collect/{machine_id}           | ✅      | ⬜                       | ⬜  | Shafi  |
 | E7 | PATCH /clear/{machine_id}                        |  ✅     | ⬜                      | ⬜  | Shafi  |
 | E8 | GET /runs/{roll_no}                        |  ✅     | ⬜                      | ⬜  | Shafi  |
 | E9 |                         |  ⬜     | ⬜                      | ⬜  | Sarang  |
-| E10 |                         |  ⬜     | ⬜                      | ⬜  |   |
+| E10 |                         |  ⬜     | ⬜                      | ⬜  | Shafi  |
 
 
 
