@@ -47,7 +47,7 @@ def collect_cloth(machine_id,roll_no):
         session.close()
         return {"code": 403, "msg": "You are not allowed to collect someone else cloth"}
 
-    if last_run.status == "free":
+    if last_run.status != "running":
         session.close()
         return {"code": 400, "msg": "The cloth has been already collected"}
 
@@ -55,12 +55,79 @@ def collect_cloth(machine_id,roll_no):
         session.close()
         return {"code": 400, "msg": "The run hasn't finished yet"}
 
-    last_run.status = "free"
+    last_run.status = "collected"
     last_run.collected_at = datetime.now()
     response = {"code": 200 , "run":run_to_dict(last_run)}
     session.commit()
     session.close()
     return response
+
+
+def clear_machine(machine_id,roll_no):
+    session = Session(engine)
+    machine = session.get(Machines, machine_id)
+    if not machine:
+        session.close()
+        return {"code": 404, "msg": "Machine doesn't exist"}
+    last_run = session.query(Runs).filter(Runs.machine_id == machine_id).order_by(Runs.id.desc()).first()
+
+    if not last_run:
+        session.close()
+        return {"code": 404, "msg": "No run exist for this machine"}
+
+    if last_run.roll_no != roll_no:
+        session.close()
+        return {"code": 403, "msg": "You are not allowed to collect someone else cloth"}
+
+    if last_run.status != "running":
+        session.close()
+        return {"code": 400, "msg": "The cloth has been already collected"}
+
+    if last_run.ends_at > datetime.now():
+        session.close()
+        return {"code": 400, "msg": "The run hasn't finished yet"}
+
+    if last_run.ends_at + timedelta(minutes=15) > datetime.now():
+            session.close()
+            return {"code": 400, "msg": "The picking time has not ran out yet"}
+    last_run.status = "cleared"
+    response = {"code": 200, "run": run_to_dict(last_run)}
+    session.commit()
+    session.close()
+    return response
+
+
+def get_running_runs(roll_no):
+    session = Session(engine)
+    runs = session.query(Runs).filter(Runs.roll_no == roll_no).order_by(Runs.id.desc()).all()
+
+    response = []
+
+    for run in runs:
+        if run.status == "running":
+            run_dict = run_to_dict(run)
+            machine = session.get(Machines,run.machine_id)
+            run_dict["machine_name"] = machine.name
+            time_left = run.ends_at - datetime.now()
+            time_left_in_min = time_left.total_seconds() // 60
+            run_dict["remaining"] = time_left_in_min
+
+            response.append(run_dict)
+    session.commit()
+    session.close()
+    return {"code":200 , "runs": response}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def get_machine_state(machine: Machines, last_run:Runs):
