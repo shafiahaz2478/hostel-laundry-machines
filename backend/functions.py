@@ -95,6 +95,30 @@ def clear_machine(machine_id,roll_no):
     return response
 
 
+def get_running_runs(roll_no):
+    session = Session(engine)
+    runs = session.query(Runs).filter(Runs.roll_no == roll_no).order_by(Runs.id.desc()).all()
+
+    response = []
+
+    for run in runs:
+        if run.status == "running":
+            run_dict = run_to_dict(run)
+            machine = session.get(Machines,run.machine_id)
+            run_dict["machine_name"] = machine.name
+            time_left = run.ends_at - datetime.now()
+            time_left_in_min = time_left.total_seconds() // 60
+            run_dict["remaining"] = time_left_in_min
+
+            response.append(run_dict)
+    session.commit()
+    session.close()
+    return {"code":200 , "runs": response}
+
+
+
+
+
 
 
 
