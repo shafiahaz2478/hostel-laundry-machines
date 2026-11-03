@@ -118,18 +118,6 @@ def get_running_runs(roll_no):
     return {"code":200 , "runs": response}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 def get_machine_state(machine: Machines, last_run:Runs):
     if machine.in_service == 1:
         if last_run.status == "running":
