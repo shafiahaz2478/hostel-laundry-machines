@@ -29,6 +29,70 @@ class Runs(Base):
     status = Column(String)
 
 
+def collect_cloth(machine_id,roll_no):
+    session = Session(engine)
+    machine = session.get(Machines,machine_id)
+    if not machine:
+        session.close()
+        return {"code": 404, "msg": "Machine doesn't exist"}
+    last_run =  session.query(Runs).filter(Runs.machine_id == machine_id).order_by(Runs.id.desc()).first()
+
+    if not last_run:
+        session.close()
+        return {"code": 404, "msg": "No run exist for this machine"}
+
+
+
+    if last_run.roll_no != roll_no:
+        session.close()
+        return {"code": 403, "msg": "You are not allowed to collect someone else cloth"}
+
+    if last_run.status == "free":
+        session.close()
+        return {"code": 400, "msg": "The cloth has been already collected"}
+
+    if last_run.ends_at > datetime.now():
+        session.close()
+        return {"code": 400, "msg": "The run hasn't finished yet"}
+
+    last_run.status = "free"
+    last_run.collected_at = datetime.now()
+    response = {"code": 200 , "run":run_to_dict(last_run)}
+    session.commit()
+    session.close()
+    return response
+
+
+def get_machine_state(machine: Machines, last_run:Runs):
+    if machine.in_service == 1:
+        if last_run.status == "running":
+            if last_run.ends_at > datetime.now():
+                return "running"
+            else:
+                return "waiting for pickup"
+        else:
+            return "free"
+
+    return "Out of Order"
+
+
+
+
+
+
+def run_to_dict(run : Runs):
+    return {
+        "id":run.id,
+        "machine_id":run.machine_id,
+        "roll_no":run.roll_no,
+        "started_at":run.started_at,
+        "ends_at":run.ends_at,
+        "collected_at":run.collected_at,
+        "status":run.status
+    }
+
+
+
 def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last 5 runs
     session = Session(engine)
     machine =  session.get(Machines,id)

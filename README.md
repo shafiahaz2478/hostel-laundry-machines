@@ -12,7 +12,7 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 | E3 |             |    ⬜  |⬜                     | ⬜  | Yashwanth  |
 | E4 |  | ⬜      | ⬜                     | ⬜  | Yashwanth |
 | E5 |  | ⬜      | ⬜                     | ⬜  | Sarang  |
-| E6 |            | ⬜      | ⬜                       | ⬜  | Shafi  |
+| E6 | PATCH /collect/{machine_id}           | 🟡      | ⬜                       | ⬜  | Shafi  |
 | E7 |                         |  ⬜     | ⬜                      | ⬜  | Shafi  |
 | E8 |                         |  ⬜     | ⬜                      | ⬜  | Shafi  |
 | E9 |                         |  ⬜     | ⬜                      | ⬜  | Sarang  |
