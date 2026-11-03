@@ -64,8 +64,13 @@ def get_all_machines(block=None, kind=None):
         })
     session.close()
     return response  
+# work on this it is incoplete
+
+
 
 # Machines = Session.query(Machines)
+
+
 
 # part e3
 
