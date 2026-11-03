@@ -1,7 +1,7 @@
 from urllib import response
 from sqlalchemy import Integer, String, Column, create_engine, DateTime, ForeignKey
 from sqlalchemy.orm import Session, declarative_base
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 
 DB_PATH = "./laundry.db"
@@ -87,7 +87,7 @@ def run_to_dict(run : Runs):
         "status":run.status
     }
 
-def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last 5 runs
+def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last 5 runs | Sarang
     session = Session(engine)
     machine =  session.get(Machines,id)
     if not machine:
@@ -106,13 +106,30 @@ def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last
     session.close()
     return {"machine": response, "code": 200}
 
-def start_machine(roll_no,id):
+def start_machine(id,machine_id,roll_no,collected_at,status): #E5, The function checks if given id is available and starts the machine | Sarang
     session = Session(engine)
     machine = session.get(Machines,id)
+    started_at = datetime.now()
     last_run =  session.query(Runs).filter(Runs.machine_id == id).order_by(Runs.id.desc()).first()
-    if not machine or get_machine_state(machine,last_run):
+    if not machine:
         session.close()
         return {"code": 404, "msg": "Machine doesn't exist"}
-    run = Runs(name=name, type=type,location=location,water_every_days=water_every_days,adopted_by= None)
+    if last_run and get_machine_state(machine,last_run) != "free":
+        session.close()
+        return {"code": 400, "msg": "Machine is not available for use"}
 
+    ends_at = started_at + timedelta(minutes=machine.cycle_minutes)
+    run = Runs(machine_id=machine_id,roll_no=roll_no,ends_at=ends_at,collected_at=collected_at,status="running",started_at=started_at)
+    session.add(run)
+    response = {
+        "machine_id":machine_id,
+        "roll_no":roll_no,
+        "ends_at":ends_at,
+        "collected_at":collected_at,
+        "status":"running",
+        "started_at":started_at
+    }
+    session.commit()
+    session.close()
+    return response
 
