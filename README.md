@@ -11,7 +11,7 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 | E2 |  GET +  |    ✅  | ⬜                    | ⬜  | Sarang |
 | E3 |             |    ⬜  |⬜                     | ⬜  | Yashwanth  |
 | E4 |  | ⬜      | ⬜                     | ⬜  | Yashwanth |
-| E5 |  | ⬜      | ⬜                     | ⬜  | Sarang  |
+| E5 |  |  ✅      | ⬜                     | ⬜  | Sarang  |
 | E6 | PATCH /collect/{machine_id}           | ✅      | ⬜                       | ⬜  | Shafi  |
 | E7 | PATCH /clear/{machine_id}                        |  ✅     | ⬜                      | ⬜  | Shafi  |
 | E8 | GET /runs/{roll_no}                        |  ✅     | ⬜                      | ⬜  | Shafi  |
@@ -25,7 +25,7 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 Sarang - E2
 
 1. Fixing the linking between tables for quering the last 5 runs
-2. 
+2. Issues with helper functions checking for available machines
 
 
 
