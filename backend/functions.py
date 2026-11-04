@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, Column, create_engine, DateTime, ForeignKey
+from sqlalchemy import Integer, String, Column, create_engine, DateTime, ForeignKey, func
 from sqlalchemy.orm import Session, declarative_base
 from datetime import datetime, date, timedelta
 
@@ -108,6 +108,8 @@ def get_running_runs(roll_no):
             run_dict["machine_name"] = machine.name
             time_left = run.ends_at - datetime.now()
             time_left_in_min = time_left.total_seconds() // 60
+            if time_left_in_min < 0:
+                continue
             run_dict["remaining"] = time_left_in_min
 
             response.append(run_dict)
@@ -120,8 +122,23 @@ def get_running_runs(roll_no):
 
 
 
+def get_today_usage():
+    session = Session(engine)
+    today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    today_runs = session.query(Runs).filter(Runs.started_at > today).all()
 
+    if not today_runs:
+        return {"code": 404, "msg": "There has been no usage today"}
 
+    response = {}
+    for run in today_runs:
+        machine = session.get(Machines,run.machine_id)
+        block_dict = response.get(machine.block , {})
+        block_dict[machine.kind] = block_dict.get(machine.kind,0) + 1
+        response[machine.block] = block_dict
+
+    session.close()
+    return {"code":200, "usage":response}
 
 
 
