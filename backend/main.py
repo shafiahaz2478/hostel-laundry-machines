@@ -38,3 +38,11 @@ def running_run(roll_no: str):
         return response["runs"]
     raise HTTPException(code, detail=response["msg"])
 
+@app.get("/machines/{id}")
+def get_machine_by_id(id: int):
+    response = functions.get_machine_by_id(id=id)
+    code = response["code"]
+    if code == 200:
+        return response["machine"]
+    raise HTTPException(code, detail=response["msg"])
+

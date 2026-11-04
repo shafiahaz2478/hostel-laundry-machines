@@ -8,7 +8,7 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 | # | Method + path            | Built   | Rules checked in /docs | Connected to React | Who |
 |---|--------------------------|---------|------------------------|---|---|
 | E1 |               |    ⬜  |⬜                     | ⬜  | Yashwanth |
-| E2 |  GET/machines/{machine_id}  |    ✅  | ⬜                    | ⬜  | Sarang |
+| E2 |  GET/machines/{id}  |    ✅  | ⬜                    | ⬜  | Sarang |
 | E3 |             |    ⬜  |⬜                     | ⬜  | Yashwanth  |
 | E4 |  | ⬜      | ⬜                     | ⬜  | Yashwanth |
 | E5 | POST/runs/{machine_id} |  ✅      | ⬜                     | ⬜  | Sarang  |
