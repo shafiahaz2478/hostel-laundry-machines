@@ -1,5 +1,4 @@
-from urllib import response
-from sqlalchemy import Integer, String, Column, create_engine, DateTime, ForeignKey
+from sqlalchemy import Integer, String, Column, create_engine, DateTime, ForeignKey, func
 from sqlalchemy.orm import Session, declarative_base
 from datetime import datetime, date, timedelta
 
@@ -115,9 +114,9 @@ def clear_machine(machine_id,roll_no):
         session.close()
         return {"code": 404, "msg": "No run exist for this machine"}
 
-    if last_run.roll_no != roll_no:
+    if last_run.roll_no == roll_no:
         session.close()
-        return {"code": 403, "msg": "You are not allowed to collect someone else cloth"}
+        return {"code": 403, "msg": "You are supposed to collect the cloth"}
 
     if last_run.status != "running":
         session.close()
@@ -150,12 +149,66 @@ def get_running_runs(roll_no):
             run_dict["machine_name"] = machine.name
             time_left = run.ends_at - datetime.now()
             time_left_in_min = time_left.total_seconds() // 60
+            if time_left_in_min < 0:
+                continue
             run_dict["remaining"] = time_left_in_min
 
             response.append(run_dict)
     session.commit()
     session.close()
     return {"code":200 , "runs": response}
+
+
+
+
+
+
+def get_today_usage():
+    session = Session(engine)
+    today = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+    today_runs = session.query(Runs).filter(Runs.started_at > today).all()
+
+    if not today_runs:
+        return {"code": 404, "msg": "There has been no usage today"}
+
+    response = {}
+    for run in today_runs:
+        machine = session.get(Machines,run.machine_id)
+        block_dict = response.get(machine.block , {})
+        block_dict[machine.kind] = block_dict.get(machine.kind,0) + 1
+        response[machine.block] = block_dict
+
+    session.close()
+    return {"code":200, "usage":response}
+
+
+def change_service(machine_id, in_service: int):
+    session = Session(engine)
+    machine = session.get(Machines, machine_id)
+    if not machine:
+        session.close()
+        return {"code": 404, "msg": "Machine doesn't exist"}
+
+    if machine.in_service == 1:
+
+        last_run = session.query(Runs).filter(Runs.machine_id == machine_id).order_by(Runs.id.desc()).first()
+
+
+        state = "free"
+        if last_run:
+            state = last_run.status
+
+        if state == "running":
+            session.close()
+            return {"code": 400, "msg": "Machine is still running"}
+
+
+    machine.in_service = in_service
+    session.commit()
+    session.close()
+    return {"code":200, "machine":"Changed to " + ("In order" if in_service == 1 else "Out of Order")}
+
+
 
 
 def get_machine_state(machine: Machines, last_run:Runs):
