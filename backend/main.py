@@ -45,3 +45,12 @@ def usage():
     if code == 200:
         return response["usage"]
     raise HTTPException(code, detail=response["msg"])
+
+@app.patch("/service/{machine_id}")
+def changeservice(machine_id: str, in_service: int):
+    response = functions.change_service(machine_id, in_service)
+    code = response["code"]
+    if code == 200:
+        return response["machine"]
+
+    raise HTTPException(code, detail=response["msg"])
