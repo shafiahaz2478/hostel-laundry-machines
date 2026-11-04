@@ -28,4 +28,11 @@ Sarang - E2
 2. Issues with helper functions checking for available machines
 
 
+E3
+
+1. fixing issues with invalid input code giving wrong detail information
+
+E5
+
+1.
 

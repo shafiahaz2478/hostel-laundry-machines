@@ -61,11 +61,23 @@ def add_machine(machine:Machine): #E3
     raise HTTPException(code,detail=response["msg"])
 
 @app.get("/machines")
-def get_all_machines(): #E1
-    response = functions.get_all_machines()
+def get_all_machines(block=None,kind=None): #E1
+    if block not in ["a","b","c","d"]:
+        raise HTTPException(status_code=422, detail="Invalid block")
+    if kind not in ["washer","dryer"]:
+        raise HTTPException(status_code=422, detail="Invalid kind of machine")
+    response = functions.get_all_machines(block=block,kind=kind)
     return response
 
 @app.get("/attention")
-def get_machines_needing_attention():
+def get_machines_needing_attention(): #E9
     response = functions.get_machines_that_need_attention()
     return response
+
+@app.post("/runs/{machine_id}")
+def starting(machine_id,roll_no):
+    response = functions.start_machine(machine_id=machine_id,roll_no=roll_no)
+    code = response["code"]
+    if code == 200:
+        return response["run"]
+    raise HTTPException(code, detail=response["msg"])

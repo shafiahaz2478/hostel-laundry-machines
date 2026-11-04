@@ -184,7 +184,7 @@ def run_to_dict(run : Runs):
 
 def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last 5 runs | Sarang
     session = Session(engine)
-    print(id)
+    #print(id)
     machine =  session.get(Machines,id)
     if not machine:
         session.close()
@@ -202,12 +202,13 @@ def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last
         "in_service": machine.in_service,
         "last_5_runs": dict_run
     }
-    print(response)
+    #print(response)
     session.close()
     return {"machine": response, "code": 200}
 
-def start_machine(id,machine_id,roll_no,collected_at,status): #E5, The function checks if given id is available and starts the machine | Sarang
+def start_machine(machine_id,roll_no): #E5, The function checks if given id is available and starts the machine | Sarang
     session = Session(engine)
+    id = machine_id
     machine = session.get(Machines,id)
     started_at = datetime.now()
     last_run =  session.query(Runs).filter(Runs.machine_id == id).order_by(Runs.id.desc()).first()
@@ -219,19 +220,19 @@ def start_machine(id,machine_id,roll_no,collected_at,status): #E5, The function 
         return {"code": 400, "msg": "Machine is not available for use"}
 
     ends_at = started_at + timedelta(minutes=machine.cycle_minutes)
-    run = Runs(machine_id=machine_id,roll_no=roll_no,ends_at=ends_at,collected_at=collected_at,status="running",started_at=started_at)
+    run = Runs(machine_id=machine_id,roll_no=roll_no,ends_at=ends_at,collected_at=None,status="running",started_at=started_at)
     session.add(run)
     response = {
         "machine_id":machine_id,
         "roll_no":roll_no,
         "ends_at":ends_at,
-        "collected_at":collected_at,
+        "collected_at":None,
         "status":"running",
         "started_at":started_at
     }
     session.commit()
     session.close()
-    return response
+    return {"code":200,"run":response}
 
 def get_machines_that_need_attention(): #E9, the function gets all the machines that need attention due to being out of order or not being cleared after waiting for pickup for 15 mins, Sarang
     session = Session(engine)
