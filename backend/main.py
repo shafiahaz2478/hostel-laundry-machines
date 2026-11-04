@@ -38,3 +38,10 @@ def running_run(roll_no: str):
         return response["runs"]
     raise HTTPException(code, detail=response["msg"])
 
+@app.get("/usage")
+def usage():
+    response = functions.get_today_usage()
+    code = response["code"]
+    if code == 200:
+        return response["usage"]
+    raise HTTPException(code, detail=response["msg"])

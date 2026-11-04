@@ -73,9 +73,9 @@ def clear_machine(machine_id,roll_no):
         session.close()
         return {"code": 404, "msg": "No run exist for this machine"}
 
-    if last_run.roll_no != roll_no:
+    if last_run.roll_no == roll_no:
         session.close()
-        return {"code": 403, "msg": "You are not allowed to collect someone else cloth"}
+        return {"code": 403, "msg": "You are supposed to collect the cloth"}
 
     if last_run.status != "running":
         session.close()
