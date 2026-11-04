@@ -259,3 +259,35 @@ def get_machines_that_need_attention(): #E9, the function gets all the machines 
                     "state": machine_state
                 })
     return response
+
+def add_a_machine(name,block,kind,cycle_minutes): #E3, Add a machines a machine with proper api checks and starts machine in service
+    session = Session(engine)
+    block = block.lower()
+    kind = kind.lower()
+    blocks= ["a","b","c","d"]
+    kinds =["washer","dryer"]
+    if cycle_minutes < 20 or cycle_minutes > 90:
+        session.close()
+        return {"code": 422, "msg": "Cycle minutes should be between 20 and 90"}
+    elif block not in blocks:
+        session.close()
+        return {"code": 422, "msg": "Invalid block"}
+    elif kind not in kinds:
+        session.close()
+        return {"code": 422, "msg": "Invalid kind of machine"}
+    elif name and block and kind and cycle_minutes:
+        machine = Machines(name=name, block=block, kind=kind, cycle_minutes=cycle_minutes, in_service=1)
+        session.add(machine)
+        response ={
+            "name": machine.name,
+            "block": machine.block,
+            "kind": machine.kind,
+            "cycle_minutes": machine.cycle_minutes,
+            "in_service": machine.in_service
+        }
+        session.commit()
+        session.close()
+        return response
+    else:
+        session.close()
+        return {"code": 422, "msg": "Missing or Empty field"}
