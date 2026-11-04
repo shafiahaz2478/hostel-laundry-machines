@@ -144,11 +144,15 @@ def run_to_dict(run : Runs):
 
 def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last 5 runs | Sarang
     session = Session(engine)
+    print(id)
     machine =  session.get(Machines,id)
     if not machine:
         session.close()
         return {"code": 404, "msg": "Machine doesn't exist"}
     last_5_runs = session.query(Runs).filter(Runs.machine_id==id).order_by(Runs.ends_at.desc()).limit(5)
+    dict_run = []
+    for run in last_5_runs:
+        dict_run.append(run_to_dict(run))
     response ={
         "id": machine.id,
         "name": machine.name,
@@ -156,8 +160,9 @@ def get_machine_by_id(id):   #E2 gets one machine by its id, along with its last
         "block": machine.block,
         "cycle_minutes": machine.cycle_minutes,
         "in_service": machine.in_service,
-        "last_5_runs": last_5_runs
+        "last_5_runs": dict_run
     }
+    print(response)
     session.close()
     return {"machine": response, "code": 200}
 
