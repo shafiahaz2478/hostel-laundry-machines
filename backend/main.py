@@ -1,10 +1,16 @@
+from urllib import response
+
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 import functions
 
-
+class Machine(BaseModel):
+    name: str
+    block: str
+    kind: str
+    cycle_minutes: int
 app = FastAPI()
 
 app.add_middleware(CORSMiddleware,
@@ -46,3 +52,10 @@ def get_machine_by_id(id: int):
         return response["machine"]
     raise HTTPException(code, detail=response["msg"])
 
+@app.post("/machines")
+def add_machine(machine:Machine):
+    response = functions.add_a_machine(machine.name,machine.block,machine.kind,machine.cycle_minutes)
+    code = response["code"]
+    if code == 200:
+        return response["machine"]
+    raise HTTPException(code,detail=response["msg"])

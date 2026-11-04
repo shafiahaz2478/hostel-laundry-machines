@@ -287,7 +287,7 @@ def add_a_machine(name,block,kind,cycle_minutes): #E3, Add a machines a machine 
         }
         session.commit()
         session.close()
-        return response
+        return {"code":200,"machine":response}
     else:
         session.close()
         return {"code": 422, "msg": "Missing or Empty field"}
