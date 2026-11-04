@@ -29,6 +29,46 @@ class Runs(Base):
     status = Column(String)
 
 
+def get_all_machines(block=None, kind=None):
+    session = Session(engine)
+    machines = session.query(Machines)
+    if block:
+        machines = machines.filter(Machines.block == block)
+    if kind:
+        machines = machines.filter(Machines.kind == kind)
+
+    machines = machines.all()
+
+    response = []
+
+    for machine in machines:
+        state = "out of order"
+
+        if machine.in_service == 1:
+
+            last_run = session.query(Runs).filter(Runs.machine_id == machine.id).order_by(Runs.id.desc()).first()
+            if last_run is None:
+                state = "free"
+            elif last_run.status == "running":
+                if last_run.ends_at > datetime.now():
+                    state = "running"
+                else:
+                    state = "waiting for pickup"
+            else:
+                state = "free"
+        response.append({
+            "id": machine.id,
+            "name": machine.name,
+            "block": machine.block,
+            "kind": machine.kind,
+            "state": state
+        })
+
+    session.close()
+
+    return response
+
+
 def collect_cloth(machine_id,roll_no):
     session = Session(engine)
     machine = session.get(Machines,machine_id)
