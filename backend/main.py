@@ -11,3 +11,46 @@ app.add_middleware(CORSMiddleware,
                    allow_origins=["http://localhost:5173"],
                    allow_methods=["*"],
                    allow_headers=["*"])
+
+
+@app.patch("/collect/{machine_id}")
+def collect(machine_id: str, roll_no: str):
+    response = functions.collect_cloth(machine_id, roll_no)
+    code = response["code"]
+    if code == 200:
+        return response["run"]
+    raise HTTPException(code, detail=response["msg"])
+
+
+@app.patch("/clear/{machine_id}")
+def clear(machine_id: str, roll_no: str):
+    response = functions.clear_machine(machine_id, roll_no)
+    code = response["code"]
+    if code == 200:
+        return response["run"]
+    raise HTTPException(code, detail=response["msg"])
+
+@app.get("/runs/{roll_no}")
+def running_run(roll_no: str):
+    response = functions.get_running_runs(roll_no)
+    code = response["code"]
+    if code == 200:
+        return response["runs"]
+    raise HTTPException(code, detail=response["msg"])
+
+@app.get("/usage")
+def usage():
+    response = functions.get_today_usage()
+    code = response["code"]
+    if code == 200:
+        return response["usage"]
+    raise HTTPException(code, detail=response["msg"])
+
+@app.patch("/service/{machine_id}")
+def changeservice(machine_id: str, in_service: int):
+    response = functions.change_service(machine_id, in_service)
+    code = response["code"]
+    if code == 200:
+        return response["machine"]
+
+    raise HTTPException(code, detail=response["msg"])
