@@ -15,7 +15,7 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 | E6 | PATCH /collect/{machine_id}           | ✅      | ⬜                       | ⬜  | Shafi  |
 | E7 | PATCH /clear/{machine_id}                        |  ✅     | ⬜                      | ⬜  | Shafi  |
 | E8 | GET /runs/{roll_no}                        |  ✅     | ⬜                      | ⬜  | Shafi  |
-| E9 |                         |  ⬜     | ⬜                      | ⬜  | Sarang  |
+| E9 |  GET/machines                       |  ✅     | ⬜                      | ⬜  | Sarang  |
 | E10 |                         |  ⬜     | ⬜                      | ⬜  | Shafi  |
 
 
