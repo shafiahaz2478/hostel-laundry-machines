@@ -7,16 +7,16 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 
 | # | Method + path            | Built   | Rules checked in /docs | Connected to React | Who |
 |---|--------------------------|---------|------------------------|---|---|
-| E1 |               |    ⬜  |⬜                     | ⬜  | Yashwanth |
-| E2 |  GET/machines/{id}  |    ✅  | ⬜                    | ⬜  | Sarang |
-| E3 |    POST + /machines         |    ✅  |⬜                     | ⬜  | Sarang  |
-| E4 |  |  ✅    | ⬜                     | ⬜  | Shafi |
-| E5 | POST/runs/{machine_id} |  ✅      | ⬜                     | ⬜  | Sarang  |
-| E6 | PATCH /collect/{machine_id}           | ✅      | ⬜                       | ⬜  | Shafi  |
-| E7 | PATCH /clear/{machine_id}                        |  ✅     | ⬜                      | ⬜  | Shafi  |
-| E8 | GET /runs/{roll_no}                        |  ✅     | ⬜                      | ⬜  | Shafi  |
-| E9 |  GET/machines                       |  ✅     | ⬜                      | ⬜  | Sarang  |
-| E10 |                         |  ⬜     | ⬜                      | ⬜  | Shafi  |
+| E1 |        GET /machines       |    ✅  |✅                     | ⬜  | Yashwanth |
+| E2 |  GET/machines/{id}  |    ✅  | ✅                    | ⬜  | Sarang |
+| E3 |    POST + /machines         |    ✅  |✅                     | ⬜  | Sarang  |
+| E4 |  |  ✅    | ✅                     | ⬜ | Shafi |
+| E5 | POST/runs/{machine_id} |  ✅      | ✅                     | ⬜  | Sarang  |
+| E6 | PATCH /collect/{machine_id}           | ✅      | ✅                       | ⬜  | Shafi  |
+| E7 | PATCH /clear/{machine_id}                        |  ✅     | ✅                      | ⬜  | Shafi  |
+| E8 | GET /runs/{roll_no}                        |  ✅     | ✅                     | ⬜  | Shafi  |
+| E9 |  GET/attention                       |  ✅     | ✅                      | ⬜  | Sarang  |
+| E10 |                         |  ✅     | ✅                      | ⬜  | Shafi  |
 
 
 

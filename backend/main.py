@@ -45,7 +45,7 @@ def running_run(roll_no: str):
     raise HTTPException(code, detail=response["msg"])
 
 @app.get("/machines/{id}")
-def get_machine_by_id(id: int):
+def get_machine_by_id(id: int): #E2
     response = functions.get_machine_by_id(id=id)
     code = response["code"]
     if code == 200:
@@ -53,9 +53,15 @@ def get_machine_by_id(id: int):
     raise HTTPException(code, detail=response["msg"])
 
 @app.post("/machines")
-def add_machine(machine:Machine):
+def add_machine(machine:Machine): #E3
     response = functions.add_a_machine(machine.name,machine.block,machine.kind,machine.cycle_minutes)
     code = response["code"]
     if code == 200:
         return response["machine"]
     raise HTTPException(code,detail=response["msg"])
+
+@app.get("/machines")
+def get_all_machines(): #E1
+    response = functions.get_all_machines()
+    return response
+
