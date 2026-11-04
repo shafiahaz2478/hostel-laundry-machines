@@ -238,18 +238,22 @@ def get_machines_that_need_attention(): #E9, the function gets all the machines 
     machines = session.query(Machines)
     response =[]
     for machine in machines:
+        print(machine.in_service)
+
+        if machine.in_service == 0:
+            response.append({
+                "id": machine.id,
+                "name": machine.name,
+                "block": machine.block,
+                "kind": machine.kind,
+                "state": "Out of Order"
+            })
+            continue
         last_run = session.query(Runs).filter(Runs.machine_id == machine.id).order_by(Runs.id.desc()).first()
         if last_run:
             machine_state=get_machine_state(machine,last_run)
-            if machine_state == "Out of Order":
-                response.append({
-                    "id": machine.id,
-                    "name": machine.name,
-                    "block": machine.block,
-                    "kind": machine.kind,
-                    "state": machine_state
-                })
-            elif machine_state == "waiting for pickup" and last_run.ends_at + timedelta(minutes=15) > datetime.now():
+
+            if machine_state == "waiting for pickup" and last_run.ends_at + timedelta(minutes=15) > datetime.now():
                 machine_state = "Waiting for pickup for more than 15 mins"
                 response.append({
                     "id": machine.id,

@@ -65,3 +65,7 @@ def get_all_machines(): #E1
     response = functions.get_all_machines()
     return response
 
+@app.get("/attention")
+def get_machines_needing_attention():
+    response = functions.get_machines_that_need_attention()
+    return response
