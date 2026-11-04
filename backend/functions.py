@@ -141,6 +141,31 @@ def get_today_usage():
     return {"code":200, "usage":response}
 
 
+def change_service(machine_id, in_service: int):
+    session = Session(engine)
+    machine = session.get(Machines, machine_id)
+    if not machine:
+        session.close()
+        return {"code": 404, "msg": "Machine doesn't exist"}
+
+    if machine.in_service == 1:
+
+        last_run = session.query(Runs).filter(Runs.machine_id == machine_id).order_by(Runs.id.desc()).first()
+
+
+        state = "free"
+        if last_run:
+            state = last_run.status
+
+        if state == "running":
+            session.close()
+            return {"code": 400, "msg": "Machine is still running"}
+
+
+    machine.in_service = in_service
+    session.commit()
+    session.close()
+    return {"code":200, "machine":"Changed to " + ("In order" if in_service == 1 else "Out of Order")}
 
 
 
