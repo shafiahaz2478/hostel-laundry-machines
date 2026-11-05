@@ -18,6 +18,19 @@ function startMachine(){
             .then((response) => response.json())
             .then((data) => setMachine(data))
         }
+function clearMachine(){
+        fetch(API_URL + `/clear/${machine.id}?roll_no=${RollNo}`, {
+            method: "PATCH",
+        })
+            .then((response) => response.json())
+            .then(() => {
+            return fetch(API_URL + "/machines");// fetching the updated list of plants
+
+            })
+            .then((response) => response.json())
+            .then((data) => setMachine(data))
+        }
+
   function handleChange(e) {    // function is an event handler used to update the component's state whenever someone types into the input field
     setRollNo(e.target.value);
 
@@ -27,6 +40,12 @@ function startMachine(){
     startMachine(); // Pass the current RollNo state up to the parent component
     
   }
+  function handleSubmitClear(e) {
+    e.preventDefault(); // Prevents the page from refreshing on form submit
+    clearMachine(); // Pass the current RollNo state up to the parent component
+    
+  }
+
 
     
 
@@ -36,7 +55,7 @@ function startMachine(){
     <p>Kind: {machine.kind}</p>
     <p>Block: {block}</p>
     <p>State: {machine.state}</p>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={machine.state==="free"? handleSubmit : handleSubmitClear}>
       <label>Enter your Roll No:
         <input
           type="text" 
@@ -46,8 +65,10 @@ function startMachine(){
       </label>
       <button type='submit'>Show</button>
       <p>{RollNo}</p>
-    </form>
-    <button onClick={startMachine}>Start The Machine</button>
+    </form>{machine.state === "free"? 
+        <button onClick={startMachine}>Start The Machine</button>:
+        <button onClick={clearMachine}>Clear The Machine</button>
+    }
     </>
 
 }

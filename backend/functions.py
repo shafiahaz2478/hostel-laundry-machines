@@ -71,6 +71,9 @@ def get_all_machines(block=None, kind=None):
 def collect_cloth(machine_id,roll_no):
     session = Session(engine)
     machine = session.get(Machines,machine_id)
+    if roll_no == "":
+        session.close()
+        return {"code": 400, "msg": "Roll number missing"}
     if not machine:
         session.close()
         return {"code": 404, "msg": "Machine doesn't exist"}
@@ -105,6 +108,9 @@ def collect_cloth(machine_id,roll_no):
 def clear_machine(machine_id,roll_no):
     session = Session(engine)
     machine = session.get(Machines, machine_id)
+    if roll_no == "":
+        session.close()
+        return {"code": 400, "msg": "Roll number missing"}
     if not machine:
         session.close()
         return {"code": 404, "msg": "Machine doesn't exist"}
@@ -138,9 +144,13 @@ def clear_machine(machine_id,roll_no):
 
 def get_running_runs(roll_no):
     session = Session(engine)
+    if roll_no == "":
+        session.close()
+        return {"code": 400, "msg": "Roll number missing"}
     runs = session.query(Runs).filter(Runs.roll_no == roll_no).order_by(Runs.id.desc()).all()
 
     response = []
+
 
     for run in runs:
         if run.status == "running":
