@@ -20,6 +20,7 @@ function App() {
 
   return <>
       <>
+          <h1>Machines</h1>
           <Machines machines={machines} setMachine={setMachines}/>
       </>
     <>

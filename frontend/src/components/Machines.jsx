@@ -22,7 +22,6 @@ function handleBlock(event){
 
     
  return <>
- <h1>Machines</h1>
  <>        kind:
 
         <select name="kind" value={kind} onChange={handleKind}>
