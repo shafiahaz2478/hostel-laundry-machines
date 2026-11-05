@@ -62,7 +62,7 @@ def add_machine(machine:Machine): #E3
 
 @app.get("/machines")
 def get_all_machines(block=None,kind=None): #E1
-    if block not in ["a","b","c","d",None]:
+    if block not in ["a","b","c","d", None]:
         raise HTTPException(status_code=422, detail="Invalid block")
     if kind not in ["washer","dryer",None]:
         raise HTTPException(status_code=422, detail="Invalid kind of machine")
