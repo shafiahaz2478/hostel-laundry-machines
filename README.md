@@ -23,7 +23,7 @@ Fill in the method and path from your PRD's endpoint table. Status: ✅ done · 
 | :---- | :---- | :---- | :---- | :---- |
 | Machines | a card per machine: name, block, kind, and a coloured label: "Free", "Running · 12 min left", "Waiting for pickup" or "Out of order"; click one to see its recent runs | block and kind filters; roll number \+ **Start** on free machines; roll number \+ **Clear** on machines waiting too long | E1, E2, E5, E7 |Sarang |
 | My laundry | the student's runs with minutes left | type roll number \+ **Show**; **Collect** button | E6, E8 | Shafi |
-| Laundry staff | the machines that need attention; today's usage per block; a form with block and kind dropdowns | **Out of order / In service** button; adds a machine | E3, E4, E9, E10 | |
+| Laundry staff | the machines that need attention; today's usage per block; a form with block and kind dropdowns | **Out of order / In service** button; adds a machine | E3, E4, E9, E10 | Shafi|
 
 ## 4. Problems and Bugs Encountered
 
