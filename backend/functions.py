@@ -150,8 +150,9 @@ def get_running_runs(roll_no):
             time_left = run.ends_at - datetime.now()
             time_left_in_min = time_left.total_seconds() // 60
             if time_left_in_min < 0:
-                continue
-            run_dict["remaining"] = time_left_in_min
+                run_dict["remaining"] = 0
+            else:
+                run_dict["remaining"] = time_left_in_min + 1
 
             response.append(run_dict)
     session.commit()
@@ -307,7 +308,7 @@ def get_machines_that_need_attention(): #E9, the function gets all the machines 
         if last_run:
             machine_state=get_machine_state(machine,last_run)
 
-            if machine_state == "waiting for pickup" and last_run.ends_at + timedelta(minutes=15) > datetime.now():
+            if machine_state == "waiting for pickup" and last_run.ends_at + timedelta(minutes=15) < datetime.now():
                 machine_state = "Waiting for pickup for more than 15 mins"
                 response.append({
                     "id": machine.id,
