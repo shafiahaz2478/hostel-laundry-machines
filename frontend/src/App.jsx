@@ -12,15 +12,9 @@ function App() {
         .then((response) => response.json())
         .then((data) => setMachines(data));
   }, []);
-  const [start,setStart] = useState([])
-  useEffect(() => {
-    fetch(API_URL + "/runs/{machine_id}")
-        .then((response) => response.json())
-        .then((data) => setS(data));
-  }, [])
 
   return <>
-    <Machines machines={machines} setStart={setStart}/>
+    <Machines machines={machines} setMachine={setMachines}/>
 
 
   </>
