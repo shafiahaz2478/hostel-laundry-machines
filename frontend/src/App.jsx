@@ -1,11 +1,11 @@
 import { useState,useEffect } from "react";
 import './App.css'
 import API_URL from "./API_URL.jsx";
-import MachineCard from "./components/MachineCard";
-import Machines from "./components/Machines";
-import RollForm from "./Components/RollForm.jsx";
-import MyLaundry from "./Components/MyLaundry.jsx";
-import LaundryStaff from "./Components/LaundryStaff.jsx";
+import MachineCard from "./components/MachineCard.jsx";
+import Machines from "./components/Machines.jsx";
+import RollForm from "./components/RollForm.jsx";
+import MyLaundry from "./components/MyLaundry.jsx";
+import LaundryStaff from "./components/LaundryStaff.jsx";
 
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
     </>
     <>
       <h1>Laundry Staff</h1>
-      <LaundryStaff />
+      <LaundryStaff machines={machines} setMachines={setMachines}/>
     </>
 
 

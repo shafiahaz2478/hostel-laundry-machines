@@ -1,4 +1,4 @@
-import API_URL from "../API_URL";
+import API_URL from "../API_URL.jsx";
 import { useState } from "react";
 
 

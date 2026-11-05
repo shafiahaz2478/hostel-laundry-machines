@@ -5,7 +5,7 @@ import Usage from "./Usage.jsx";
 import ChangeService from "./ChangeService.jsx";
 import AddMachine from "./AddMachine.jsx";
 
-function LaundryStaff(){
+function LaundryStaff({machines,setMachines}){
     const [attention,setAttention] = useState([])
     const [usage,setUsage] = useState([])
     const [kind,setKind] = useState("")
@@ -57,8 +57,8 @@ function LaundryStaff(){
 
             </>
             <Usage usages={usage} block={block} kind={kind}/>
-            <ChangeService />
-            <AddMachine />
+            <ChangeService machines={machines} setMachines={setMachines}/>
+            <AddMachine setMachines={setMachines}/>
 
         </>
     </>

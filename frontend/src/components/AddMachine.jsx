@@ -2,9 +2,8 @@ import {useState} from "react";
 
 const API_URL = "http://127.0.0.1:8001";
 
-// TODO implement use machines from App.jsx later
 
-function AddMachine(){
+function AddMachine({setMachines}){
     const [name,setName] = useState("")
     const [kind,setKind] = useState("Washer")
     const [block,setBlock] = useState("a")
@@ -42,7 +41,7 @@ function AddMachine(){
 
             })
             .then((response) => response.json())
-            // .then((data) => setMachines(data)) TODO
+            .then((data) => setMachines(data))
 
     }
 

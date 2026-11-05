@@ -1,7 +1,6 @@
 function Usage({usages,kind,block}){
     let total_washer_usage = 0;
     let total_dryer_usage = 0;
-    console.log(usages)
     if (block === "") {
         for (let usage of Object.values(usages)) {
             if ("washer" in usage) {

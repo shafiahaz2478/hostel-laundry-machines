@@ -1,4 +1,4 @@
-import MachineCard from "./MachineCard"
+import MachineCard from "./MachineCard.jsx"
 import { useState,useEffect } from "react";
 
 
