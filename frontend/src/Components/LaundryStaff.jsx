@@ -3,6 +3,7 @@ import API_URL from "../API_URL.jsx";
 import AttentionMachine from "./AttentionMachine.jsx";
 import Usage from "./Usage.jsx";
 import ChangeService from "./ChangeService.jsx";
+import AddMachine from "./AddMachine.jsx";
 
 function LaundryStaff(){
     const [attention,setAttention] = useState([])
@@ -41,10 +42,10 @@ function LaundryStaff(){
 
                 <select name="type" value={block} onChange={handleBlock}>
                     <option value="">No Filter</option>
-                    <option value="a">a</option>
-                    <option value="b">b</option>
-                    <option value="c">c</option>
-                    <option value="d">d</option>
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                    <option value="d">D</option>
                 </select>
                    kind:
 
@@ -57,6 +58,7 @@ function LaundryStaff(){
             </>
             <Usage usages={usage} block={block} kind={kind}/>
             <ChangeService />
+            <AddMachine />
 
         </>
     </>

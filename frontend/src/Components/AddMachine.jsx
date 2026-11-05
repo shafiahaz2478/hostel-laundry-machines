@@ -8,7 +8,7 @@ function AddMachine(){
     const [name,setName] = useState("")
     const [kind,setKind] = useState("Washer")
     const [block,setBlock] = useState("a")
-    const [cycleInMins,setCycleInMins] = useState(1)
+    const [cycleInMins,setCycleInMins] = useState(20)
 
     function handleName(e) {    // function is an event handler used to update the component's state whenever someone types into the input field
         setName(e.target.value);
@@ -25,25 +25,30 @@ function AddMachine(){
         setCycleInMins(e.target.value);
     }
 
-    function addPlant(){
-        let query = `?name=${name}&type=${kind}&location=${block}&water_every_days=${cycleInMins}`;
-        fetch(API_URL + `/plants` + query, {
-            method: "POST"
-
+    function addMachine(){
+        fetch(API_URL + `/machines`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                  "name": name,
+                  "block": block,
+                  "kind": kind,
+                  "cycle_minutes": cycleInMins
+                })
         })
             .then((response) => response.json())
             .then(() => {
-                return fetch(API_URL + "/plants");// fetching the updated list of plants
+                return fetch(API_URL + "/machines");// fetching the updated list of plants
 
             })
             .then((response) => response.json())
-            // .then((data) => setMachines(data))
+            // .then((data) => setMachines(data)) TODO
 
     }
 
     function handleSubmit(e) {
         e.preventDefault(); // Prevents the page from refreshing on form submit
-        addPlant()
+        addMachine()
     }
 
     return <>
@@ -63,20 +68,21 @@ function AddMachine(){
                 </select>
 
             </label>
-            <label>location:
-                <input
-                    type="text"
-                    value={block}
-                    onChange={handleBlock}
-                />
+            <label>block:
+                <select name="type" value={block} onChange={handleBlock}>
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                    <option value="d">D</option>
+                </select>
             </label>
-            <label>water every days:
+            <label>Cycle in Minutes:
                 <input
                     type="number"
                     value={cycleInMins}
                     onChange={handleCycle}
-                    min="1"
-                    max="14"
+                    min="20"
+                    max="90"
                 />
             </label>
             <button type='submit'>Add</button>
@@ -85,4 +91,4 @@ function AddMachine(){
     </>
 }
 
-export default AddPlant
+export default AddMachine

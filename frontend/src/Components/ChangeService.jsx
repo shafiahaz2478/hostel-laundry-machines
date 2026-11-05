@@ -44,7 +44,7 @@ function ChangeService() {
 
             <select name="type" value={machineID} onChange={handleMachine}>
                 {machIDS.map((id) => {
-                    return <option value={id}>{id}</option>
+                    return <option key={id} value={id}>{id}</option>
                 })}
             </select>
             State:
