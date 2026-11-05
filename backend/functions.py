@@ -266,6 +266,9 @@ def start_machine(machine_id,roll_no): #E5, The function checks if given id is a
     machine = session.get(Machines,id)
     started_at = datetime.now()
     last_run =  session.query(Runs).filter(Runs.machine_id == id).order_by(Runs.id.desc()).first()
+    if roll_no == "":
+        session.close()
+        return {"code": 400, "msg": "Roll number missing"}
     if not machine:
         session.close()
         return {"code": 404, "msg": "Machine doesn't exist"}
