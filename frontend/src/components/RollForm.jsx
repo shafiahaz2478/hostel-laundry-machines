@@ -1,16 +1,21 @@
+import ErrorMessage from "./ErrorMessage.jsx";
+import {parseResponse, errorText} from "../api.js";
 import { useState } from 'react';
 import API_URL from "../API_URL.jsx";
 function RollForm({setStudentRun}) {
   const [RollNo, setRollNo] = useState("");
+  const [error, setError] = useState("");
 
   function handleChange(e) {    // function is an event handler used to update the component's state whenever someone types into the input field
     setRollNo(e.target.value);
 
   }
   function updateStudentRun(student){
+    setError("")
     fetch(API_URL + "/runs/"+student)
-        .then((response) => response.json())
-        .then((data) => setStudentRun(data));
+        .then(parseResponse)
+        .then((data) => setStudentRun(data))
+        .catch((err) => setError(errorText(err)));
   }
 
   function handleSubmit(e) {
@@ -20,8 +25,8 @@ function RollForm({setStudentRun}) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Enter your Roll No:
+    <form className="inline-form" onSubmit={handleSubmit}>
+      <label className="field">Enter your Roll No:
         <input
           type="text"
           value={RollNo}
@@ -29,11 +34,11 @@ function RollForm({setStudentRun}) {
         />
       </label>
       <button type='submit'>Show</button>
-      <p>{RollNo}</p>
+      <p className="echo">{RollNo}</p>
+      <ErrorMessage message={error} />
     </form>
   )
 }
 
 
 export default RollForm;
-

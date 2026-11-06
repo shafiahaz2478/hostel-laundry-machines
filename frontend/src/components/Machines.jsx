@@ -22,15 +22,16 @@ function handleBlock(event){
 
     
  return <>
- <>        kind:
+ <div className="filter-bar">
+        <label className="filter">kind:
 
         <select name="kind" value={kind} onChange={handleKind}>
             <option value="">No Filter</option>
             <option value="dryer">Dryer</option>
             <option value="washer">Washer</option>
         </select>
-        </>
-        <>        block:
+        </label>
+        <label className="filter">block:
 
         <select name="kind" value={block} onChange={handleBlock}>
             <option value="">No Filter</option>
@@ -39,11 +40,14 @@ function handleBlock(event){
             <option value="c">Block C</option>
             <option value="d">Block D</option>
         </select>
-        </>
-        
+        </label>
+ </div>
+
+    <div className="machine-grid">
     {filteredmachine.map((machine) => {return <MachineCard key={machine.id} machine={machine} setMachine={setMachine}/>})}
-    
+    </div>
+
  </>
 }
 
-export default Machines 
+export default Machines
