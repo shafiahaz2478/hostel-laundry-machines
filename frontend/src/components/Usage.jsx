@@ -18,10 +18,10 @@ function Usage({usages,kind,block}){
             total_dryer_usage = usages[block].dryer
         }
     }
-    return <>
-        {kind === "" || kind === "Dryer" ? <p>Dryer: {total_dryer_usage}</p>:null}
-        {kind === "" || kind === "Washer" ? <p>Washer: {total_washer_usage}</p>:null}
-    </>
+    return <div className="usage-stats">
+        {kind === "" || kind === "Dryer" ? <p className="usage-stat dryer">Dryer: {total_dryer_usage}</p>:null}
+        {kind === "" || kind === "Washer" ? <p className="usage-stat">Washer: {total_washer_usage}</p>:null}
+    </div>
 
 }
 

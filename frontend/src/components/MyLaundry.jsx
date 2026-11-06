@@ -6,7 +6,7 @@ import StudentLaundry from "./StudentLaundry.jsx";
 function MyLaundry({studentRuns,setStudentRun}){
 
 
-    return <div>
+    return <div className="my-laundry">
         {studentRuns.map((studentRun) => {return <StudentLaundry key={studentRun} studentRun={studentRun} setStudentRun={setStudentRun} />})}
     </div>
 }

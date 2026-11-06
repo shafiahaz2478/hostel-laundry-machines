@@ -1,3 +1,5 @@
+import ErrorMessage from "./ErrorMessage.jsx";
+import {parseResponse, errorText} from "../api.js";
 import {useState} from "react";
 
 const API_URL = "http://127.0.0.1:8001";
@@ -8,6 +10,7 @@ function AddMachine({setMachines}){
     const [kind,setKind] = useState("Washer")
     const [block,setBlock] = useState("a")
     const [cycleInMins,setCycleInMins] = useState(20)
+    const [error,setError] = useState("")
 
     function handleName(e) {    // function is an event handler used to update the component's state whenever someone types into the input field
         setName(e.target.value);
@@ -25,6 +28,7 @@ function AddMachine({setMachines}){
     }
 
     function addMachine(){
+        setError("")
         fetch(API_URL + `/machines`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -35,13 +39,14 @@ function AddMachine({setMachines}){
                   "cycle_minutes": cycleInMins
                 })
         })
-            .then((response) => response.json())
+            .then(parseResponse)
             .then(() => {
                 return fetch(API_URL + "/machines");// fetching the updated list of plants
 
             })
             .then((response) => response.json())
             .then((data) => setMachines(data))
+            .catch((err) => setError(errorText(err)))
 
     }
 
@@ -51,8 +56,8 @@ function AddMachine({setMachines}){
     }
 
     return <>
-        <form onSubmit={handleSubmit}>
-            <label>Name:
+        <form className="inline-form" onSubmit={handleSubmit}>
+            <label className="field">Name:
                 <input
                     type="text"
                     value={name}
@@ -60,14 +65,14 @@ function AddMachine({setMachines}){
                 />
             </label>
 
-            <label>kind:
+            <label className="field">kind:
                 <select name="type" value={kind} onChange={handleKind}>
                     <option value="Washer">Washer</option>
                     <option value="Dryer">Dryer</option>
                 </select>
 
             </label>
-            <label>block:
+            <label className="field">block:
                 <select name="type" value={block} onChange={handleBlock}>
                     <option value="a">A</option>
                     <option value="b">B</option>
@@ -75,7 +80,7 @@ function AddMachine({setMachines}){
                     <option value="d">D</option>
                 </select>
             </label>
-            <label>Cycle in Minutes:
+            <label className="field">Cycle in Minutes:
                 <input
                     type="number"
                     value={cycleInMins}
@@ -85,6 +90,7 @@ function AddMachine({setMachines}){
                 />
             </label>
             <button type='submit'>Add</button>
+            <ErrorMessage message={error} />
         </form>
 
     </>
