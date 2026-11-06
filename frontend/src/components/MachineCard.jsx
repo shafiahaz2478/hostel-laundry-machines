@@ -63,7 +63,6 @@ function clearMachine(){
           onChange={handleChange}
         />
       </label>
-      <button type='submit'>Show</button>
       <p>{RollNo}</p>
     </form>{machine.state === "free"? 
         <button onClick={startMachine}>Start The Machine</button>:
