@@ -46,3 +46,29 @@ E9
 1. dealing with machine state for out of order machines getting overwritten by the machine state for pickup longer than 15 minutess.
 
 
+
+
+## Setup Instructions
+
+1. Backend
+
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8001
+
+```
+
+2. Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+
+```
+
+## Proof of work
+
+![img.png](img.png)
+
